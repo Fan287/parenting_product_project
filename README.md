@@ -49,20 +49,20 @@ Empty sets are created to store the scraped data and generate a dataframe.
 
 ### Part 5: Set up three def functions for execution part
 1. Function for price cleansing: The price format in HKTVmall can be complicated, as some vendors may not fill in the price field with numbers or may include multiple prices.
-```python
-def price_cleasing(a_string):
-    last_split_string = a_string.split('$')[-1]
-    numbers = re.findall(r'\d+', last_split_string)
-    if len(numbers)==1:
-        if int(numbers) < 10: # some label is about 'No.1 sale', which is not a price
-            pass
-        else:
-            return numbers[0]
-    elif len(numbers)==2: # some price are seperated with , or .
-        return '.'.join(numbers)
-    else:
-        return ''.join(numbers[-3:-1]) + '.' + numbers[-1] # some price are seperated with , and . 
-```
+   ```python
+   def price_cleasing(a_string):
+       last_split_string = a_string.split('$')[-1]
+       numbers = re.findall(r'\d+', last_split_string)
+       if len(numbers)==1:
+           if int(numbers) < 10: # some label is about 'No.1 sale', which is not a price
+               pass
+           else:
+               return numbers[0]
+       elif len(numbers)==2: # some price are seperated with , or .
+           return '.'.join(numbers)
+       else:
+           return ''.join(numbers[-3:-1]) + '.' + numbers[-1] # some price are seperated with , and . 
+   ```
 2. Function for scraping the data from result pages: This function utilizes a for loop to scrape the data of each product. The price_cleansing function will also be used in this part to clean the price before appending it to the empty sets.
    for example:
    ```python
@@ -72,28 +72,46 @@ def price_cleasing(a_string):
     except: 
         original_price.append('')
    ```
-3. Function for scraping the data from individual product pages: This function is responsible for scraping the origin and comments of each product. In order to understand why some customers like or dislike the product, we specifically choose the 5-star (the best) and 1-star (the worst) comments.
+3. Function for scraping the data from individual product pages: This function is responsible for scraping the origin and comments of each product. In order to understand why some customers  like or dislike the product, we specifically choose the 5-star (the best) and 1-star (the worst) comments.
   scrap the 5 star comments:
-  ```python
-  try:
-      star_5_tap = driver.find_element(By.XPATH, "//div[@data-tabname='star5']")
-      star_5_tap.click()
-  except:
-      print('fail to click 5 star tap')
-  ```
-   scrap the 1 star comments:
-  ```python
-  try:
-      driver.find_element(By.XPATH, "//div[@data-tabname='star1']").click()
-      time.sleep(1)
-  except:
-      print('fail to click 1 star tap')
-  ```
+     ```python
+     try:
+         star_5_tap = driver.find_element(By.XPATH, "//div[@data-tabname='star5']")
+         star_5_tap.click()
+     except:
+         print('fail to click 5 star tap')
+     ```
+      scrap the 1 star comments:
+     ```python
+     try:
+         driver.find_element(By.XPATH, "//div[@data-tabname='star1']").click()
+         time.sleep(1)
+     except:
+         print('fail to click 1 star tap')
+     ```
+### Part 6: Execution steps
+1. This part records the execution procedure and applies the defined functions mentioned above.
+2. It is also responsible for scraping approximately 60 links of products on a result page.
+```python
+# scrap individual product's page
+ upper_lvs = driver.find_elements(By.XPATH, '//span[@class="product-brief-wrapper"]')
+ product_links = [] # save about 60 links
+ for upper_lv in upper_lvs:
+     target_link = upper_lv.find_elements(By.TAG_NAME, "a")[-1].get_attribute('href') # [-1] = the link stored in the last bag
+     product_links.append(target_link)
+```
+3. To indicate when each data was scraped, a timestamp will be generated for each data entry.
+
+### Part 7: Store data into DataFrame and CSV file
+The data will be stored in a DataFrame, and the CSV file will be named based on the date and time of its generation. This ensures that the file generated on the same day will not be replaced and allows for easy identification of different data files.
+```python
+file_name = f'hktvmall_powder_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv' #current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+```
 ## Usage
 To use this project, follow these steps:
-Install the required dependencies by running pip install -r requirements.txt.
-Run the web scraping script to collect data from HKTVmall.
-Analyze the collected data to gain insights into parenting products and customer preferences.
+1. Install the required dependencies by running pip install -r requirements.txt.
+2. Run the web scraping script to collect data from HKTVmall.
+3. Analyze the collected data to gain insights into parenting products and customer preferences.
 
 ## Analysis the data between 9-15, Aug, 2023
 ### origins
