@@ -29,7 +29,7 @@ The script requires several libraries, which are specified in the "requirements.
    except:
     print('no ad')
   ```
-3. HKTVmall's parenting products category has 17 subcategories, and the code allows the user to choose which category to scrape. ***The user needs to specify the category number (0-15) in the code to indicate the desired category.*** The code then retrieves the URL for the selected category and navigates to that page. 
+3. HKTVmall's parenting products category has 16 subcategories, and the code allows the user to choose which category to scrape. ***The user needs to specify the category number (0-15) in the code to indicate the desired category.*** The code then retrieves the URL for the selected category and navigates to that page. 
    ```python
    # decide which category to scrap
     # 0=嬰兒奶粉 1=尿片/學習褲 2=身體清潔/淋浴/護理 3=衣物/奶樽/清潔用品 4=奶樽/餐具/哺育用品
