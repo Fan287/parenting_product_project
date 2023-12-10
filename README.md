@@ -12,10 +12,14 @@ However, please note that the demo for Petit Tippi's website is not uploaded due
 ## Explain code in hktv_demo.py
 Here will explain the structure of code and some reasons of the design. The code is divided into 7 parts.
 ### Part 1: import and install the required libraries
-The libraries needed for the script are specified in the "requirements.txt" file.
+The script requires several libraries, which are specified in the "requirements.txt" file. The libraries are used for the following reasons:
+1. time and datetime: used to work with dates and times. They are utilized to indicate the date of data scraping.
+2. selenium: used for web scraping. It allows the script to interact with web browsers and retrieve data from web pages.
+3. re: support for regular expressions. It is used for data cleansing, specifically for extracting and manipulating text patterns.
+4. pandas: used to save the scraped data into a data frame format. 
 ### Part 2: land to the target page and category (setting needed)
 1.  It starts by setting the starting URL to the parenting products category on HKTVmall.
-2.  It then attempts to close any ads that may appear on the page. If an ad is found, it locates the close button and clicks on it to close the ad. If no ad is found, it prints a message indicating that there is no ad.
+2.  It then attempts to close any ads that may appear on the page. If an ad is found, it locates the close button and clicks on it to close the ad.
    ```python
    try:
     close_ad_button = driver.find_element(By.XPATH, '//i[@class="btnCloseLarge"]')
@@ -25,7 +29,7 @@ The libraries needed for the script are specified in the "requirements.txt" file
    except:
     print('no ad')
   ```
-3. HKTVmall's parenting products category has 17 subcategories, and the code allows the user to choose which category to scrape. The user needs to specify the category number (0-16) in the code to indicate the desired category. The code then retrieves the URL for the selected category and navigates to that page. 
+3. HKTVmall's parenting products category has 17 subcategories, and the code allows the user to choose which category to scrape. ***The user needs to specify the category number (0-15) in the code to indicate the desired category.*** The code then retrieves the URL for the selected category and navigates to that page. 
    ```python
    # decide which category to scrap
     # 0=嬰兒奶粉 1=尿片/學習褲 2=身體清潔/淋浴/護理 3=衣物/奶樽/清潔用品 4=奶樽/餐具/哺育用品
@@ -103,10 +107,11 @@ Empty sets are created to store the scraped data and generate a dataframe.
 3. To indicate when each data was scraped, a timestamp will be generated for each data entry.
 
 ### Part 7: Store data into DataFrame and CSV file
-The data will be stored in a DataFrame, and the CSV file will be named based on the date and time of its generation. This ensures that the file generated on the same day will not be replaced and allows for easy identification of different data files.
+1. The data will be stored in a DataFrame, and the CSV file will be named based on the date and time of its generation. This ensures that the file generated on the same day will not be replaced and allows for easy identification of different data files.
 ```python
-file_name = f'hktvmall_powder_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv' #current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+file_name = f'hktvmall_powder_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv'
 ```
+2. The uploaded CSV file 'hktvmall_powder_2023-12-10_01-01-22.csv' is provided as an example to demonstrate the result after scraping. The file contains the scraped data from the HKTVmall website, specifically related to powder products.
 ## Usage
 To use this project, follow these steps:
 1. Install the required dependencies by running pip install -r requirements.txt.
