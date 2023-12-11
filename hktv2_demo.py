@@ -39,12 +39,12 @@ for link_location in upper_lvs:
     cate_links.append(link_location.find_element(By.XPATH, './a[@class="link"]').get_attribute('href'))
     #  test cate_links
     # print(cate_links[5])
-# decide which category to scrap
+# decide which category to scrap (setting needed, important!!!)
     # 0=嬰兒奶粉 1=尿片/學習褲 2=身體清潔/淋浴/護理 3=衣物/奶樽/清潔用品 4=奶樽/餐具/哺育用品
     # 5=母乳餵補用品 6=嬰兒醫藥/護膚 7=嬰兒食物/飲品/保健品 8=嬰兒玩具教育
     # 9=嬰兒外出用品 10=嬰兒床上用品 11=嬰兒傢俱/安全用品 12=嬰兒服飾/髮飾/帽
     # 13=成長紀錄/禮短套裝 14=孕婦清潔護理 15=產前/產後/專區
-target_cate_link = cate_links[0]
+target_cate_link = cate_links[0] # put the desired category's number into the slicing
 driver.get(target_cate_link)
 time.sleep(5)
 
@@ -79,14 +79,14 @@ def price_cleasing(a_string):
     last_split_string = a_string.split('$')[-1]
     numbers = re.findall(r'\d+', last_split_string)
     if len(numbers)==1:
-        if int(numbers) < 10: # some label is about 'No.1 sale'
+        if int(numbers) < 10: # some label are about 'No.1 sale'
             pass
         else:
             return numbers[0]
-    elif len(numbers)==2:
+    elif len(numbers)==2: # some label are 100.90, then re will seperate them into '100', '00'
         return '.'.join(numbers)
     else:
-        return ''.join(numbers[-3:-1]) + '.' + numbers[-1]
+        return ''.join(numbers[-3:-1]) + '.' + numbers[-1] # some label are 1,000.90, then re will seperate them into '1', '100', '00'
 
 # def for scrap data in result page
 def scrap_result_page(product_list):
@@ -103,7 +103,7 @@ def scrap_result_page(product_list):
 
         try: # find the sales
             sales_with_word = product_info.find_element(By.CLASS_NAME, 'salesNumber-container').text
-            sales.append(sales_with_word.split(' ')[-1].replace('+',''))
+            sales.append(sales_with_word.split(' ')[-1].replace('+','')) # sales numbers' format '已售出 1000+'
         except: 
             sales.append('')
 
@@ -119,13 +119,13 @@ def scrap_result_page(product_list):
 
         try: # find original price
             ori_price_sign = product_info.find_element(By.CLASS_NAME, 'promotional').text
-            original_price.append(price_cleasing(ori_price_sign))
+            original_price.append(price_cleasing(ori_price_sign)) # apply the defined def
         except: 
             original_price.append('')
 
         try: # find price
             selling_price_sign = product_info.find_element(By.CLASS_NAME, 'price').text
-            selling_price.append(price_cleasing(selling_price_sign))
+            selling_price.append(price_cleasing(selling_price_sign)) # apply the defined def
         except: 
             selling_price.append('')
 
@@ -212,12 +212,12 @@ for times in range(2): # need 2 result pages' data, should put 2
     for upper_lv in upper_lvs:
         target_link = upper_lv.find_elements(By.TAG_NAME, "a")[-1].get_attribute('href') # [-1] = the link stored in the last bag
         product_links.append(target_link)
+            #print(f'it has {len(product_links)} links.') # for checking
+    
+        # apply def, running on the newly open page
+    single_product_page(product_links) # the def will close the page after completion
 
-    print(f'it has {len(product_links)} links.') # for checking
-    # apply def, running on the newly open page
-    single_product_page(product_links) 
-
-    # switch the control to the old page
+        # switch the control to the old page
     driver.switch_to.window(driver.window_handles[0])
     time.sleep(1)
 
@@ -237,7 +237,7 @@ for times in range(2): # need 2 result pages' data, should put 2
         break
     time.sleep(2)
 
-# add today's date to show each data's date
+# a timestamp will be generated for each data entry
 today = []
 for i in range(len(product_name)):
     today.append(date.today())
