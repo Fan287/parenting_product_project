@@ -1,7 +1,6 @@
 # Parenting Product Insight Study
-This project aims to gain insights into parenting products by web scraping data from the online shopping platform, HKTVmall, and Petit Tippi.
-The goal is to collect basic product information(product name,price,origin etc.) from these platforms and analyze customer comments to understand customer preferences. 
-However, please note that the demo for Petit Tippi's website is not uploaded due to recent changes on their website.
+This project aims to gain insights into parenting products by web scraping data from the online shopping platforms, HKTVmall and Petit Tippi.
+The project collects basic information (product name, price, origin, etc.) of at least 100 products in each category (e.g., powder) from these platforms daily and analyzes customer comments to understand customer preferences. Please note that the demo for Petit Tippi's website is not uploaded due to recent changes on their website.
 
 ## Project's structure
 1. Use VS Code to perform web scraping and save the data as CSV files.
@@ -94,8 +93,8 @@ Empty sets are created to store the scraped data and generate a dataframe.
          print('fail to click 1 star tap')
      ```
 ### Part 6: Execution steps
-1. This part records the execution procedure and applies the defined functions mentioned above.
-2. It is also responsible for scraping approximately 60 links of products on a result page.
+1. This section documents the process of execution and applies the defined functions mentioned earlier.
+2. It is also responsible for scraping approximately 60 product links on a result page.
 ```python
 # scrap individual product's page
  upper_lvs = driver.find_elements(By.XPATH, '//span[@class="product-brief-wrapper"]')
@@ -104,7 +103,8 @@ Empty sets are created to store the scraped data and generate a dataframe.
      target_link = upper_lv.find_elements(By.TAG_NAME, "a")[-1].get_attribute('href') # [-1] = the link stored in the last bag
      product_links.append(target_link)
 ```
-3. To indicate when each data was scraped, a timestamp will be generated for each data entry.
+3. It requires running the loop twice to obtain more than 100 top-selling products instead of all of them. However, users can input higher numbers to scrape more products.
+4. To indicate when each data was scraped, a timestamp will be generated for each data entry.
 
 ### Part 7: Store data into DataFrame and CSV file
 1. The data will be stored in a DataFrame, and the CSV file will be named based on the date and time of its generation. This ensures that the file generated on the same day will not be replaced and allows for easy identification of different data files.
