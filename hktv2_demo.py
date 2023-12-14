@@ -70,7 +70,8 @@ original_price = []
 selling_price = []
 vendor_name = []
 origin = []
-comment = []
+star5_comment = []
+star1_comment = []
 
 # -------------------------------------------------------------------------------------------
 # Part 5: set up three def function for execution part
@@ -163,42 +164,42 @@ def single_product_page(product_links):
         time.sleep(1)
 
         # find the comment
-        tem_comment = [] # all comments of one product must be combined into 1 list
             # 5 star comment
-        try:
-            star_5_tap = driver.find_element(By.XPATH, "//div[@data-tabname='star5']")
-            star_5_tap.click()
+        try:            
+            driver.find_element(By.XPATH, "//div[@data-tabname='star5']").click()
+            time.sleep(1)
+
+            tem_star5_comment = [] # for combining all 5 star comments
+            five_star_comments = driver.find_elements(By.XPATH, '//div[@class="review-title"]')
+            for five_star_comment in five_star_comments:
+                tem_star5_comment.append(five_star_comment.text)
+            star5_comment.append(tem_star5_comment)
+
         except:
+            star5_comment.append('')
             print('fail to click 5 star tap')
-
-        time.sleep(1)
-        tem_comment = ['5_star']
-
-        five_star_comments = driver.find_elements(By.XPATH, '//div[@class="review-title"]')
-        for five_star_comment in five_star_comments:
-            tem_comment.append(five_star_comment.text)
-
-            # add a label to seperate good and bad comments
-        tem_comment.append('1_star')
 
             # 1 star comment
         try:
             driver.find_element(By.XPATH, "//div[@data-tabname='star1']").click()
             time.sleep(1)
+
+            tem_star1_comment = [] # for combining all 1 star comments
+            one_star_comments = driver.find_elements(By.XPATH, '//div[@class="review-title"]')
+            for one_star_comment in one_star_comments:
+                tem_star1_comment.append(one_star_comment.text)
+            star1_comment.append(tem_star1_comment)
         except:
+            star1_comment.append('')
             print('fail to click 1 star tap')
 
-        one_star_comments = driver.find_elements(By.XPATH, '//div[@class="review-title"]')
-        for one_star_comment in one_star_comments:
-            tem_comment.append(one_star_comment.text)
         
-        comment.append(tem_comment) # all comments of one product must be combined into 1 list
     # close the tap after runing 60 individual product pages
     driver.close()
 
 # -------------------------------------------------------------------------------------------
 # Part 6: execution steps
-for times in range(2): # need 2 result pages' data, should put 2
+for times in range(1): # need 2 result pages' data, should put 2
     # scrap result pages' data
     product_infos = driver.find_elements(By.XPATH, '//div[@class="info-wrapper"]')
     # apply def
@@ -213,7 +214,7 @@ for times in range(2): # need 2 result pages' data, should put 2
         target_link = upper_lv.find_elements(By.TAG_NAME, "a")[-1].get_attribute('href') # [-1] = the link stored in the last bag
         product_links.append(target_link)
             #print(f'it has {len(product_links)} links.') # for checking
-    
+
         # apply def, running on the newly open page
     single_product_page(product_links) # the def will close the page after completion
 
@@ -252,7 +253,8 @@ for i in range(len(product_name)):
 # print(len(rating))
 # print(len(review_number))
 # print(len(origin))
-# print(len(comment))
+# print(len(star5_comment))
+# print(len(star1_comment))
 # print(len(today))
 
 # -------------------------------------------------------------------------------------------
@@ -268,7 +270,8 @@ df = pd.DataFrame({
     'rating': rating,
     'review_number': review_number,
     'origin':origin,
-    'comment':comment,
+    'star5_comment':star5_comment,
+    'star1_comment':star1_comment,
     'date': today
 })
     # print(df) # for checking

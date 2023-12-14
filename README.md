@@ -78,19 +78,34 @@ Empty sets are created to store the scraped data and generate a dataframe.
 3. Function for scraping the data from individual product pages: This function is responsible for scraping the origin and comments of each product. In order to understand why some customers  like or dislike the product, we specifically choose the 5-star (the best) and 1-star (the worst) comments.
   scrap the 5 star comments:
      ```python
-     try:
-         star_5_tap = driver.find_element(By.XPATH, "//div[@data-tabname='star5']")
-         star_5_tap.click()
-     except:
-         print('fail to click 5 star tap')
+     try:            
+        driver.find_element(By.XPATH, "//div[@data-tabname='star5']").click()
+        time.sleep(1)
+
+        tem_star5_comment = [] # for combining all 5 star comments
+        five_star_comments = driver.find_elements(By.XPATH, '//div[@class="review-title"]')
+        for five_star_comment in five_star_comments:
+            tem_star5_comment.append(five_star_comment.text)
+        star5_comment.append(tem_star5_comment)
+
+    except:
+        star5_comment.append('')
+        print('fail to click 5 star tap')
      ```
       scrap the 1 star comments:
      ```python
      try:
-         driver.find_element(By.XPATH, "//div[@data-tabname='star1']").click()
-         time.sleep(1)
-     except:
-         print('fail to click 1 star tap')
+        driver.find_element(By.XPATH, "//div[@data-tabname='star1']").click()
+        time.sleep(1)
+
+        tem_star1_comment = [] # for combining all 1 star comments
+        one_star_comments = driver.find_elements(By.XPATH, '//div[@class="review-title"]')
+        for one_star_comment in one_star_comments:
+            tem_star1_comment.append(one_star_comment.text)
+        star1_comment.append(tem_star1_comment)
+    except:
+        star1_comment.append('')
+        print('fail to click 1 star tap')
      ```
 ### Part 6: Execution steps
 1. This section documents the process of execution and applies the defined functions mentioned earlier.
