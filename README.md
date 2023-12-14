@@ -10,13 +10,13 @@ The project collects basic information (product name, price, origin, etc.) of at
 
 ## Explain code in hktv_demo.py
 Here will explain the structure of code and some reasons of the design. The code is divided into 7 parts.
-### Part 1: import and install the required libraries
+### Part 1: Import and install the required libraries
 The script requires several libraries, which are specified in the "requirements.txt" file. The libraries are used for the following reasons:
 1. time and datetime: used to work with dates and times. They are utilized to indicate the date of data scraping.
 2. selenium: used for web scraping. It allows the script to interact with web browsers and retrieve data from web pages.
 3. re: support for regular expressions. It is used for data cleansing, specifically for extracting and manipulating text patterns.
 4. pandas: used to save the scraped data into a data frame format. 
-### Part 2: land to the target page and category (setting needed)
+### Part 2: Land to the target page and category (setting needed)
 1.  It starts by setting the starting URL to the parenting products category on HKTVmall.
 2.  It then attempts to close any ads that may appear on the page. If an ad is found, it locates the close button and clicks on it to close the ad.
    ```python
@@ -39,7 +39,7 @@ The script requires several libraries, which are specified in the "requirements.
     driver.get(target_cate_link)
     time.sleep(5)
     ```
-### Part 3: sort the top sales' product
+### Part 3: Sort the top sales' product
 This project selects only the top-selling product from each category, so it requires sorting the products based on their sales.
 ```python
 sales_volume = driver.find_element(By.XPATH, '//option[@value="sales-volume-desc"]')
@@ -126,7 +126,7 @@ Empty sets are created to store the scraped data and generate a dataframe.
 ```python
 file_name = f'hktvmall_powder_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv'
 ```
-2. The uploaded CSV file 'hktvmall_powder_2023-12-10_01-01-22.csv' is provided as an example to demonstrate the result after scraping. The file contains the scraped data from the HKTVmall website, specifically related to powder products.
+2. The uploaded CSV file 'hktvmall_powder_2023-12-14_18-22-17' is provided as an example to demonstrate the result after scraping. The file contains the scraped data from the HKTVmall website, specifically related to powder products.
 ## Usage
 To use this project, follow these steps:
 1. Install the required dependencies by running pip install -r requirements.txt.
