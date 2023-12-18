@@ -121,7 +121,7 @@ Empty sets are created to store the scraped data and generate a dataframe.
 3. It requires running the loop twice to obtain more than 100 top-selling products instead of all of them. However, users can input higher numbers to scrape more products.
 4. To indicate when each data was scraped, a timestamp will be generated for each data entry.
 
-### Part 7: Store data into DataFrame and CSV file
+### Part 7: Store data into DataFrame and PostgreSQL/CSV file
 1. The data will be stored in a DataFrame, and the CSV file will be named based on the date and time of its generation. This ensures that the file generated on the same day will not be replaced and allows for easy identification of different data files.
 ```python
 file_name = f'hktvmall_powder_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv'
