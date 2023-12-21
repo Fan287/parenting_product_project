@@ -12,7 +12,7 @@ from hktv_database_git import connect, insertDF, create_table
 
 driver = webdriver.Chrome()
 
-# -------------------------------------------------------------------------------------------
+# ===========================================================================================
 # Part 2: set up empty set for data storage in scrap_result_page
     # must put before def scrap_result_page
 product_name = []
@@ -27,7 +27,7 @@ origin = []
 star5_comment = []
 star1_comment = []
 
-# -------------------------------------------------------------------------------------------
+# ===========================================================================================
 # Part 3: set up three def function for execution part
     # def for price_cleasing, used in def 'scrap_result_page' below
 def price_cleasing(a_string):
@@ -176,8 +176,8 @@ def category_name():
     elif cate_num+start_cate_num == 13:
         return 'gift'
 
-# -------------------------------------------------------------------------------------------
-# Part 4: land to the target page and category (setting needed)
+# ===========================================================================================
+# Part 4: land to the target page and category
 # starting page, parenting products
 url = 'https://www.hktvmall.com/hktv/zh/mothernbaby'
 
@@ -199,20 +199,28 @@ except:
     print('no ad')
 
 # find out categories' links
-upper_lvs = driver.find_elements(By.XPATH, '//div[@class="subnav"]/ul/li')[1:17] # 17 categories but eliminate the first ad and final category 'insurance'
+upper_lvs = driver.find_elements(By.XPATH, '//div[@class="subnav"]/ul/li') # 17-18 categories links (may include ad link)
+if len(upper_lvs) > 17: # sometimes, the small ad is added at the top of powder category
+    upper_lvs.pop(0)
+else:
+    pass
+
+upper_lvs.pop() # the finally one is insurance, which is not the target
+
 cate_links = []
 for link_location in upper_lvs:
     cate_links.append(link_location.find_element(By.XPATH, './a[@class="link"]').get_attribute('href'))
     #  test cate_links
     # print(cate_links[5])
 
+# ===========================================================================================
 # Part 5: execution steps: scrap all selected categories' data
     # decide which category to scrap (setting needed, important!!!)
         # 0=嬰兒奶粉 1=尿片/學習褲 2=身體清潔/淋浴/護理 3=衣物/奶樽/清潔用品 4=奶樽/餐具/哺育用品
         # 5=母乳餵補用品 6=嬰兒醫藥/護膚 7=嬰兒食物/飲品/保健品 8=嬰兒玩具教育
         # 9=嬰兒外出用品 10=嬰兒床上用品 11=嬰兒傢俱/安全用品 12=嬰兒服飾/髮飾/帽
         # 13=成長紀錄/禮短套裝 14=孕婦清潔護理 15=產前/產後/專區
-    # selected_cate = 15 # put the desired category's number into the slicing
+    # selected_cate = 15 # put the desired category's number into two variables
 start_cate_num = 0
 end_cate_num = None
 for cate_num, cate in enumerate(cate_links[start_cate_num:end_cate_num]):
@@ -282,13 +290,6 @@ for cate_num, cate in enumerate(cate_links[start_cate_num:end_cate_num]):
         website.append('hktvmall')
         product_cate.append(category)
         today.append(date.today())
-
-
-        # simplify the category and generate the cate name for file name 
-            # 0=嬰兒奶粉 1=尿片/學習褲 2=身體清潔/淋浴/護理 3=衣物/奶樽/清潔用品 4=奶樽/餐具/哺育用品
-            # 5=母乳餵補用品 6=嬰兒醫藥/護膚 7=嬰兒食物/飲品/保健品 8=嬰兒玩具教育
-            # 9=嬰兒外出用品 10=嬰兒床上用品 11=嬰兒傢俱/安全用品 12=嬰兒服飾/髮飾/帽
-            # 13=成長紀錄/禮短套裝 14=孕婦清潔護理 15=產前/產後/專區      
 
         # checking the length of each column (not necessary)
     '''
