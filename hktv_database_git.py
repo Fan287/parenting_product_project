@@ -1,4 +1,3 @@
-# from database import connect, insertDF, create_tableimp
 import psycopg2
 from psycopg2 import Error
 import psycopg2.extras as extras
@@ -11,7 +10,7 @@ def connect():
     try: 
         connection = psycopg2.connect(
             user = "postgres",
-            password = "your_pw", # insert your own password
+            password = "your_password",
             host = "localhost",
             port = "5432",
             database = "hktvmall"
@@ -75,8 +74,8 @@ def create_table():
 
 if __name__ == '__main__':
     print('running main')
-    # connect() 
-    create_table()
+    connect() 
+    # create_table()
     # first run: connect the sever
         # connect enable, create_table disable
     # second run: create table 
@@ -129,5 +128,5 @@ def sql_to_df(connection, table):
 
 if __name__ == '__main__':
     print('running main')
-    # connect()
+    connect()
     # create_table()
