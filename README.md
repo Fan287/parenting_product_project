@@ -19,25 +19,26 @@ The script requires several libraries, which are specified in the "requirements.
 ### Part 2: Land to the target page and category (setting needed)
 1.  It starts by setting the starting URL to the parenting products category on HKTVmall.
 2.  It then attempts to close any ads that may appear on the page. If an ad is found, it locates the close button and clicks on it to close the ad.
-   ```python
-   try:
-    close_ad_button = driver.find_element(By.XPATH, '//i[@class="btnCloseLarge"]')
-    time.sleep(2)
-    close_ad_button.click()
-    print('ad closed')
-   except:
-    print('no ad')
-  ```
+    ```python
+    try:
+        close_ad_button = driver.find_element(By.XPATH, '//i[@class="btnCloseLarge"]')
+        time.sleep(2)
+        close_ad_button.click()
+        print('ad closed')
+    except:
+        print('no ad')
+    ```
 3. HKTVmall's parenting products category has 16 subcategories, and the code allows the user to choose which category to scrape. ***The user needs to specify the category number (0-15) in the code to indicate the desired category.*** The code then retrieves the URL for the selected category and navigates to that page. 
-   ```python
-   # decide which category to scrap
-    # 0=嬰兒奶粉 1=尿片/學習褲 2=身體清潔/淋浴/護理 3=衣物/奶樽/清潔用品 4=奶樽/餐具/哺育用品
-    # 5=母乳餵補用品 6=嬰兒醫藥/護膚 7=嬰兒食物/飲品/保健品 8=嬰兒玩具教育
-    # 9=嬰兒外出用品 10=嬰兒床上用品 11=嬰兒傢俱/安全用品 12=嬰兒服飾/髮飾/帽
-    # 13=成長紀錄/禮短套裝 14=孕婦清潔護理 15=產前/產後/專區
-    target_cate_link = cate_links[0] # put the number into the slice to decide the scrapped category
-    driver.get(target_cate_link)
-    time.sleep(5)
+    ```python
+        # decide which category to scrap (setting needed, important!!!)
+            # 0=嬰兒奶粉 1=尿片/學習褲 2=身體清潔/淋浴/護理 3=衣物/奶樽/清潔用品 4=奶樽/餐具/哺育用品
+            # 5=母乳餵補用品 6=嬰兒醫藥/護膚 7=嬰兒食物/飲品/保健品 8=嬰兒玩具教育
+            # 9=嬰兒外出用品 10=嬰兒床上用品 11=嬰兒傢俱/安全用品 12=嬰兒服飾/髮飾/帽
+            # 13=成長紀錄/禮短套裝 14=孕婦清潔護理 15=產前/產後/專區
+        # put the desired categorys' number into two variables below
+        start_cate_num = 0  
+        end_cate_num = None
+        for cate_num, cate in enumerate(cate_links[start_cate_num:end_cate_num]):
     ```
 ### Part 3: Sort the top sales' product
 This project selects only the top-selling product from each category, so it requires sorting the products based on their sales.
