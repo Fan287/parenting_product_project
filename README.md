@@ -116,12 +116,12 @@ Empty sets are created to store the scraped data and generate a dataframe.
 ```
 3. It selects only the top-selling product from each category, so it requires sorting the products based on their sales.
 4. To indicate when each data was scraped, a timestamp will be generated for each data entry.
-5.1. The data will be stored in a DataFrame, and the CSV file will be named based on the date and time of its generation. This ensures that the file generated on the same day will not be replaced and allows for easy identification of different data files.
+5. The data will be stored in a DataFrame, and the CSV file will be named based on the date and time of its generation. This ensures that the file generated on the same day will not be replaced and allows for easy identification of different data files.
 ```python
 file_name = f'hktvmall_powder_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv'
 ```
-The uploaded CSV file 'hktvmall_powder_2023-12-14_18-22-17' is provided as an example to demonstrate the result after scraping. The file contains the scraped data from the HKTVmall website, specifically related to powder products.
-5.2. Alternatively, you have the option to import 'hktv_database_git.py' to directly store the scraped data into PostgreSQL. 
+6. The uploaded CSV file 'hktvmall_powder_2023-12-14_18-22-17' is provided as an example to demonstrate the result after scraping. The file contains the scraped data from the HKTVmall website, specifically related to powder products.
+7. Alternatively, you have the option to import 'hktv_database_git.py' to directly store the scraped data into PostgreSQL. 
 
 ## Usage
 To use this project, follow these steps:
